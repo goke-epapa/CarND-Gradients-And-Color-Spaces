@@ -16,11 +16,12 @@ def abs_sobel_thresh(img, orient='x', thresh_min=0, thresh_max=255):
     
     # Apply the following steps to img
     # 1) Convert to grayscale
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     
     # 2) Take the derivative in x or y given orient = 'x' or 'y'
     takeX = 1 if orient == 'x' else 0
     takeY = 1 if orient == 'y' else 0
+    
     sobel = cv2.Sobel(gray, cv2.CV_64F, takeX, takeY)
     
     # 3) Take the absolute value of the derivative or gradient
@@ -31,11 +32,11 @@ def abs_sobel_thresh(img, orient='x', thresh_min=0, thresh_max=255):
     
     # 5) Create a mask of 1's where the scaled gradient magnitude 
             # is > thresh_min and < thresh_max
-    sxbinary = np.zeros_like(scaled_sobel)
-    sxbinary[(scaled_sobel >= thresh_min) & (scaled_sobel <= thresh_max)] = 1
+    binary_output = np.zeros_like(scaled_sobel)
+    binary_output[(scaled_sobel >= thresh_min) & (scaled_sobel <= thresh_max)] = 1
     
     # 6) Return this mask as your binary_output image
-    return sxbinary
+    return binary_output
     
 # Run the function
 grad_binary = abs_sobel_thresh(image, orient='x', thresh_min=20, thresh_max=100)
